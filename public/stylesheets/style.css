@@ -1,0 +1,108 @@
+
+body {
+  height: 100%;
+  background-color: #644B52;
+}
+
+
+
+.all-container {
+  width: 80%;
+  height: 80%;
+  margin: 100px auto;
+  border: 3px solid green;
+  padding: 20px;
+  background-color: gray;
+  text-align: center;
+}
+
+
+.chart-container {
+  position: relative;
+  margin: auto;
+  height: 50vh;
+  width: 100%;
+  border: 3px dotted white;
+}
+
+h1 {
+  font-family: 'Orbitron', sans-serif;
+  color: white;
+  text-shadow: 0px 0px 2px black;
+  letter-spacing: 6px;
+  font-size: 1em;
+  margin-bottom: 20px;
+}
+
+
+.btn-container{
+  width: 32%;
+  display: inline-block;
+  text-align: left;
+  padding: 5px !important;
+}
+.freq {
+  
+}
+
+input {
+  max-width: 125px;
+}
+
+.zoom {
+  margin: 2px;
+}
+
+p,a {
+  display: inline-block;
+  font-family: 'Cutive Mono', monospace;
+  margin: 0px 5px;
+  font-size: 0.8em;
+  text-shadow: 0px 0px 0.2px black;
+  padding: 5px;
+}
+
+a {
+   background-color: black;
+   color: white;
+}
+
+.btns-container{
+  text-align: left;
+    border: 3px solid yellow;
+}
+
+.stocks-container {
+  width: 98%;
+  border: 3px solid purple;
+  text-align: left;
+  padding: 10px;
+
+}
+
+.stock-container{
+  display: inline-block;
+  width: 20%;
+  min-height: 110px;
+  background-color: white;
+  border-left-width: 3px;
+  border-left-style: solid;
+  border-left-color: yellow;
+  padding: 20px;
+}
+
+.fa {
+  float: right;
+}
+
+
+.add-container{
+  display: inline-block;
+  width: 20%;
+  min-height: 110px;
+  background-color: white;
+  border-left-width: 3px;
+  border-left-style: solid;
+  border-left-color: gray;
+  padding: 20px;
+}

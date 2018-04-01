@@ -1,0 +1,50 @@
+doctype html
+html
+  head
+    title= title
+    //External
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js")
+    script(src='https://code.jquery.com/jquery-3.3.1.js', integrity='sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=', crossorigin='anonymous')
+    link(href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", rel="stylesheet", integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN", crossorigin="anonymous")
+    link(href='https://fonts.googleapis.com/css?family=Orbitron:400|Cutive+Mono', rel='stylesheet')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src='/javascripts/index.js')
+
+
+  body
+    .all-container
+      h1 STOCKS
+      .btns-container
+        .btn-container
+          p.freq FREQUENCY
+          a.daily DAILY
+          a.weekly WEEKLY
+          a.montly MONTHLY
+        .btn-container
+          p ZOOM
+          a.zoom 1m
+          a.zoom 2m
+          a.zoom 3m
+          a.zoom 4m
+          a.zoom 5m
+          a.zoom 6m
+        .btn-container
+          
+          form
+            p from:
+            input(type='date' name="from")
+            p to:
+            input(type='date' name='to:')
+      .chart-container
+          canvas#stocks
+      .stocks-container
+        //.stock-container
+          i.fa.fa-times
+          h1.name TSLA
+          p.desc Tesla Motors Inc. (TSLA) Prices, Dividends, Splits and Trading Volume
+        .add-container
+          form(method="post" action="/getstock")
+            label(for="stock") Syncs in realtime across clients
+            br
+            input#stock(type="text" name="stock")
+            button(type='submit') add
