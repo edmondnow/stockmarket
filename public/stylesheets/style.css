@@ -36,7 +36,7 @@ h1 {
 
 
 .btn-container{
-  width: 32%;
+  width: 48%;
   display: inline-block;
   text-align: left;
   padding: 5px !important;
@@ -94,6 +94,12 @@ a {
 .fa {
   float: right;
 }
+
+.time{
+  text-align: right;
+  float: right;
+
+  }
 
 
 .add-container{

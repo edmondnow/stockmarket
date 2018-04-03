@@ -4,25 +4,38 @@ const keys = require('../config/config');
 const alpha = require('alphavantage')({ key: keys.alphaKey });
 
 
-
-
-
 /* GET home page. */
 
 router.get('/', function(req, res, next){
   res.render('index');
 })
 
-router.get('post', function(req, res, next) {
-var stock = req.body.stock;
-// Simple examples
-alpha.data.monthly(stock).then(data => {
-  console.log(data);
+router.post('/getstock', function(req, res, next) {
+  var stock = req.body.stock;
+  var keys = req.body['labels[]'];
+  console.log(stock);
+  alpha.data.daily(stock, 'full').then(data => {
+    data = data['Time Series (Daily)'];
+    var dataValues = []
+    for(i = 0; i<keys.length; i++){
+      var dataPoint = data[keys[i]]['1. open'];
+      dataValues.push(dataPoint)
+    }
+    console.log(dataValues.length)
+    res.send({dataValues: dataValues, name: req.body.stock});
+  });
 });
 
+
+router.post('/getlabels', function(req, res, next) {
+  var stock = req.body.stock;
+  var keysArray = [];
+  alpha.data.daily(stock, 'full').then(data => {
+  data = data['Time Series (Daily)'];
+  var dataKeys = Object.keys(data).slice(0, 700);
+  res.send({dataKeys: dataKeys});
+  });
 });
-
-
 
 
 /*

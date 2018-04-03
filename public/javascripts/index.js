@@ -1,26 +1,63 @@
+var currentLabels = []//determine current labels up to a year
+var currentStocks = []; //containers always the last logged stocks
+
+
+(function getLabels(){
+    $.ajax({
+        type: 'POST',
+        url: "/getlabels",
+        data: {stock: 'MSFT'},
+        success: function(data){
+            currentLabels = data.dataKeys.reverse();
+            makeChart();
+        },
+        error: function(error){
+            console.log(error)
+        }
+        });
+})();
 
 
 
-$("document").ready(function(){
 
-var ctx = document.getElementById("stocks").getContext('2d');
 
-var options = {
-  maintainAspectRatio: false,
-  scales: {
-    yAxes: [{
-      stacked: true,
-      gridLines: {
-        display: true,
-        color: "rgba(255,99,132,0.2)"
-      }
-    }],
-    xAxes: [{
-      gridLines: {
-        display: false
-      }
-    }]
-  }
+
+$('#submit').click(function(){
+    var stock = $("#stock").val();
+    $.ajax({
+        type: 'POST',
+        url: "/getstock",
+        data: {stock: stock, labels: currentLabels},
+        success: function(data){
+        currentStocks.push({
+            label: data.name,
+            backgroundColor: 'yellow',
+            borderColor: 'yellow',
+            data: data.dataValues,
+            borderWidth: 1
+
+        });
+         makeChart();
+         addCont(data.name)
+        },
+        error: function(error){
+            console.log(error)
+        }
+        });
+});
+
+
+
+
+
+
+function addCont(name){
+    var stockContainer = '<div class="stock-container">'
+    stockContainer += '<i class="fa fa-times"></i>'
+    stockContainer += '<h1 class="name">' + name + '</h1>'
+    stockContainer += '<p class="desc">' + 'desciprtion var' + '</p>'
+    stockContainer += '</div>'
+    $('.stocks-container').prepend(stockContainer)
 }
 
 
@@ -29,30 +66,39 @@ var options = {
 
 
 
+function makeChart(labels, stocks){
+
+    var ctx = $('#stocks');
+
+    var options = {
+      maintainAspectRatio: false,
+      scales: {
+        yAxes: [{
+          stacked: true,
+          gridLines: {
+            display: true,
+            color: "rgba(255,99,132,0.2)"
+          }
+        }],
+        xAxes: [{
+          gridLines: {
+            display: false
+          }
+        }]
+      }
+    }
+
+    var chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels:currentLabels,
+        datasets: currentStocks
+    },
+
+    options: options
+    });
 
 
-var chart = new Chart(ctx, {
-type: 'line',
-data: {
-    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-    datasets: [{
-        label: 'StockName',
-        data: [12, 19, 3, 5, 2, 3],
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        borderColor: 'rgba(255,99,132,1)',
-        borderWidth: 1,
-    }, {
-        label: '# of Votes',
-        data: [3, 4, 5, 4, 2, 3],
-        backgroundColor: [
-            'rgba(255, 99, 132, 0.2)'
-        ],
-        borderColor: [
-            'rgba(255,99,132,1)'
-        ],
-        borderWidth: 1
-    }]
-},
-options: options
-});
-})
+}
+
+
