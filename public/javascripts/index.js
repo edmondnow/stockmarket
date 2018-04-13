@@ -2,8 +2,10 @@
 //https://www.highcharts.com
 
 
+$('document').ready(function(){
 var series = []
 var names = [];
+var chart;
 
 var socket = io.connect('http://localhost:3000')
 
@@ -71,7 +73,7 @@ Highcharts.theme = {
       }
    },
    tooltip: {
-      backgroundColor: 'rgba(0, 0, 0, 0.85)',
+      guColor: 'rgba(0, 0, 0, 0.85)',
       style: {
          color: '#F0F0F0'
       }
@@ -213,6 +215,7 @@ Highcharts.setOptions(Highcharts.theme);
 
 $('#submit').click(function(){
     var stock = $("#stock").val();
+    chart.showLoading();
     $.ajax({
         type: 'POST',
         url: "/getstock",
@@ -222,8 +225,9 @@ $('#submit').click(function(){
             series.push({
                 name: data.name,
                 data: data.dataArrays,
+                color: data.color
             });
-            addCont(data.name);
+            addCont(data.name, data.color);
             names.push(data.name);
             socket.emit('stock', {
                 series: series,
@@ -255,7 +259,7 @@ socket.on('remove', function(data){
 
 function createChart() {
 
-    Highcharts.stockChart('container', {
+    chart = Highcharts.stockChart('container', {
 
         rangeSelector: {
             selected: 0
@@ -277,7 +281,8 @@ function createChart() {
         plotOptions: {
             series: {
                 compare: 'percent',
-                showInNavigator: true
+                showInNavigator: true,
+
             }
         },
 
@@ -291,7 +296,7 @@ function createChart() {
     });
 }
 
-$('.stocks-container').delegate('i','click',  function(){
+$('.container').delegate('i','click',  function(){
     var stock = this.closest('div').id.toString();
     names.splice(names.indexOf(stock,1));
     for(var i = 0; i<series.length; i++){
@@ -304,18 +309,22 @@ $('.stocks-container').delegate('i','click',  function(){
         series: series,
         name: stock
     });
-
-    this.closest('div').remove();
+    $(this.closest('div')).fadeOut();
 });
 
 
-function addCont(name){
+function addCont(name, color){
     var stockContainer = '<div class="stock-container" id="'+ name + '">'
     stockContainer += '<i class="fa fa-times"></i>'
     stockContainer += '<h1 class="name">' + name + '</h1>'
-    stockContainer += '<p class="desc">' + 'desciprtion var' + '</p>'
+    stockContainer += '<p class="desc">' + 'Daily Opening Prices' + '</p>'
     stockContainer += '</div>'
-    $('.stocks-container').append(stockContainer)
+    
+
+    $('.container').append($(stockContainer).hide().fadeIn(1000))
+    $('#'+name).css('border-left-color', color)
 }
 
 createChart();
+
+})

@@ -3,6 +3,7 @@ const router = express.Router();
 const keys = require('../config/config');
 const request = require('request');
 const moment = require('moment');
+var colorIterator = -1;
 
 
 router.get('/', function(req, res, next){
@@ -26,20 +27,20 @@ router.post('/getstock', function(req, res, next) {
       dataArrays.push([date, parseFloat(dataPoint)])
     }
     dataArrays = dataArrays.reverse();
-    res.send({dataArrays: dataArrays, name: req.body.stock});
+    res.send({dataArrays: dataArrays, name: req.body.stock, color: getColor()});
     }
   });
 });
 
 
-router.post('/getlabels', function(req, res, next) {
-  var stock = req.body.stock;
-  var keysArray = [];
-  alpha.data.daily(stock, 'full').then(data => {
-  data = data['Time Series (Daily)'];
-  var dataKeys = Object.keys(data).slice(0, 700);
-  res.send({dataKeys: dataKeys});
-  });
-});
+function getColor(){
+  var colors = ['#8FD400', '#8D4E85', '#9C7C38', '#0A7E8C', '#319177', '#757575', '#C46210', '#9C2542', '#0081AB']
+  if(colorIterator == colors.length-1){
+    colorIterator = -1;
+  }
+  colorIterator++
+  return colors[colorIterator]
+  
+}
 
 module.exports = router;

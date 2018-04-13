@@ -5,6 +5,13 @@ body {
 }
 
 
+.container {
+  max-width: 100%;
+  text-align: left;
+  margin: 0px !important;
+  padding: 0 10px !important;
+  display:flex;justify-content:left;align-items:left
+}
 
 .all-container {
   width: 80%;
@@ -19,7 +26,7 @@ body {
 .chart-container {
   position: relative;
   margin: auto;
-  margin-bottom: 20px;
+  margin-bottom: 80px;
   height: 50vh;
   width: 100%;
 }
@@ -58,30 +65,20 @@ a {
    color: white;
 }
 
-
-.stocks-container {
-  width: 98%;
-  text-align: left;
-  padding: 10px;
-
-}
-
-
-.container{
-    height: 400px;
-  min-width: 310px;
-}
-
-.stock-container{
+.add-container, .stock-container{
+  margin-right: 25px;
+  margin-bottom: 25px;
   display: inline-block;
-  width: 20%;
-  min-height: 110px;
+  width: 323px;
+  height: 160px;
   background-color: white;
-  border-left-width: 3px;
+  border-left-width: 10px;
   border-left-style: solid;
-  border-left-color: yellow;
+  border-left-color: gray;
   padding: 20px;
 }
+
+
 
 .fa {
   float: right;
@@ -94,17 +91,64 @@ a {
   }
 
 
-.add-container{
-  display: inline-block;
-  width: 20%;
-  min-height: 110px;
-  background-color: white;
-  border-left-width: 3px;
-  border-left-style: solid;
-  border-left-color: gray;
-  padding: 20px;
-}
+
 
 i:hover {
   cursor: pointer;
+}
+
+.name {
+  color: black;
+  text-shadow: none;
+  font-size: 1.5em;
+
+}
+
+.desc {
+  margin: 0;
+  padding: 0;
+  size: 1.6em;
+}
+
+label {
+  font-size: 0.8em !important;
+  text-align: center;
+  min-width: 100%;
+  font-family: 'Cutive Mono', monospace;
+}
+
+input {
+  margin-top: 20px;
+  min-width: 84% !important;
+}
+
+button {
+  margin-top: 20px;
+  width: 30%;
+}
+
+
+.error{
+  height: 20px;
+  font-family: 'Cutive Mono', monospace;
+  color: red;
+  display: inline-block;
+  text-align: center;
+  position: relative;
+  font-style: bold;
+  left: 10px;
+  top: 10px;
+}
+
+
+i:hover {
+  color: gray;
+}
+
+
+.stock-container{
+  -webkit-transition: all 1s ease-in-out;
+  -moz-transition: all 1s ease-in-out;
+  -o-transition: all 1s ease-in-out;
+  transition: all 1s ease-in-out;
 }
