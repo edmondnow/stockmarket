@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const keys = require('../config/config');
+//const keys = require('../config/config');
 const request = require('request');
 const moment = require('moment');
 var colorIterator = -1;
@@ -12,7 +12,7 @@ router.get('/', function(req, res, next){
 
 router.post('/getstock', function(req, res, next) {
   var stock = req.body.stock;
-  var url = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&outputsize=full&apikey='+ keys.alphaKey + '&symbol=' + stock;
+  var url = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&outputsize=full&apikey='+ process.env.ALPHAKEY + '&symbol=' + stock;
   request(url, function (err, response, body) {
     if(body.indexOf('Error Message')>-1){
       res.status(500).send('No such stock.')
