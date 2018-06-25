@@ -2,12 +2,29 @@
 //https://www.highcharts.com
 
 
+
+
 $('document').ready(function(){
+  
+if (! $.cookie("first")){
+
+  const initStocks = ['TSLA'];
+
+  createChart();
+  initStocks.forEach( stock =>{
+    ajaxCall(stock);
+  })
+
+   // set cookie now
+   $.cookie("first", "firstSet", {"expires" : 7})
+}
+
 var series = []
 var names = [];
 var chart;
 
-var socket = io.connect('http://localhost:3000')
+
+var socket = io();
 
 Highcharts.createElement('link', {
    href: 'https://fonts.googleapis.com/css?family=Unica+One',
@@ -211,15 +228,12 @@ Highcharts.theme = {
 // Apply the theme
 Highcharts.setOptions(Highcharts.theme);
 
-
-
-$('#submit').click(function(){
-    var stock = $("#stock").val();
+function ajaxCall(stock){
     chart.showLoading();
     $.ajax({
         type: 'POST',
         url: "/getstock",
-        data: {stock: stock},
+        data: { stock: stock },
         success: function(data){ 
             $('.error').empty()     
             series.push({
@@ -228,13 +242,12 @@ $('#submit').click(function(){
                 color: data.color
             });
             addCont(data.name, data.color);
-            names.push(data.name);
+            names.push(data.name.toUpperCase());
             socket.emit('stock', {
                 series: series,
                 name: data.name
             });
             createChart();
-             
         },
         error: function(error){
             if($('.error').text().length==0){
@@ -243,6 +256,12 @@ $('#submit').click(function(){
             
         }
         });
+}
+
+$('#submit').click(function(){
+  var stock = $("#stock").val();
+  ajaxCall(stock);
+  createChart();
 });
 
 socket.on('stock', function(data){
